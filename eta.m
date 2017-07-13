@@ -10,11 +10,22 @@ function ETAstr = eta(n,N,starttime,output_type,console_text,skipframes)
     % N             = Final iteration/value
     % starttime     = Timestamp of start moment
     % output_type   = Either 'console' or 'string'
-    % console_text  = Text to display in console (if applicable)
-    % skipframes    = Skip the estimation every this many iterations
+    % console_text  = Text to display in console
+    % skipframes    = Skip console output every this many iterations
     %
     % starttime can be obtained beforehand with:
     % starttime = now;
+    %
+    % The first iteration n is assumed to be 1. The eta function call
+    % should be placed at the end of an iteration.
+    %
+    % Only if output_type is set to 'console':
+    %  - the clc command will be used to clear the command window.
+    %  - console_text will be used to show text above the ETA in console
+    %  - skipframes will be used
+    %
+    % If output_type is set to 'string', console_text and skipframes
+    % arguments may be omitted.
     
     if strcmp(output_type,'console')            % If output will be sent to console
         if n==N                                 % If at 100%, give output
@@ -31,7 +42,7 @@ function ETAstr = eta(n,N,starttime,output_type,console_text,skipframes)
     if doit
         % Show Estimated Time for Arrival in console
         perc = n/N*100;                         % Percentage done
-        ETA = (now-starttime)*(N/(n-1) - 1);    % ETA in days [why Matlab? (-_-) ]
+        ETA = (now-starttime)*(N/n - 1);        % ETA in days [why Matlab? (-_-) ]
         ETA_min = floor(ETA*1440);              % minutes of ETA
         ETA_sec = mod(floor(ETA*86400),60);     % seconds of ETA
         
