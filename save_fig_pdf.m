@@ -1,5 +1,7 @@
 function save_fig_pdf(filename,h)
 % Save figure to PDF and crop edges.
+% Made by Daniel Cox
+% Version 1.0
 %
 % Usages:
 %   save_fig_pdf
