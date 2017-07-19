@@ -1,4 +1,4 @@
-function mw = weighted_median(v,w)
+function [mw,im] = weighted_median(v,w)
 % Weighted Median
 % Version 1.0
 % by Daniel Cox
