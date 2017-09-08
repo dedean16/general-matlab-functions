@@ -11,25 +11,25 @@ function fig_resize(height,AR,axnum,fig)
 %
 % Usages:
 %   fig_resize
-%   fig_resize(width)
-%   fig_resize(width,AR)
-%   fig_resize(width,AR,axnum)
-%   fig_resize(width,AR,axnum,fig)
+%   fig_resize(height)
+%   fig_resize(height,AR)
+%   fig_resize(height,AR,axnum)
+%   fig_resize(height,AR,axnum,fig)
 %
-% width = Inner height in pixels of the figure. Default is 500 pixels.
-% AR    = Aspect Ratio. Inner width/height ratio. Default is 1.
-% ax    = Child axes number to set width and AR for. Default is 0.
-% fig   = Figure handler or figure number. Default is current.
+% height = Inner height in pixels of the figure. Default is 500 pixels.
+% AR     = Aspect Ratio. Inner width/height ratio. Default is 1.
+% ax     = Child axes number to set height and AR for. Default is 0.
+% fig    = Figure handler or figure number. Default is current.
 %
 % Positions will be set such that figure center will remain the same.
 %
 % If child is 0 or omitted or figure contains no axes handlers,
-% the width and AR apply to the figure itself. If the figure contains
+% the height and AR apply to the figure itself. If the figure contains
 % multiple axes or other objects, these will be scaled accordingly.
 %
 % Axes number supports polar axes as well as straight axes.
 
-if nargin == 0              % Default width
+if nargin == 0              % Default height
     height = 500;
 end
 
