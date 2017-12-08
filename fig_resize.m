@@ -12,22 +12,26 @@ function fig_resize(height,AR,axnum,fig)
 % Usages:
 %   fig_resize
 %   fig_resize(height)
-%   fig_resize(height,AR)
-%   fig_resize(height,AR,axnum)
-%   fig_resize(height,AR,axnum,fig)
+%   fig_resize(height, AR)
+%   fig_resize(height, AR, axnum)
+%   fig_resize(height, AR, axnum, fig)
 %
 % height = Inner height in pixels of the figure. Default is 500 pixels.
 % AR     = Aspect Ratio. Inner width/height ratio. Default is 1.
-% ax     = Child axes number to set height and AR for. Default is 0.
+% axnum  = Child axes number to set height and AR for. Default is 0.
 % fig    = Figure handler or figure number. Default is current.
 %
 % Positions will be set such that figure center will remain the same.
 %
-% If child is 0 or omitted or figure contains no axes handlers,
+% If axnum is 0 or omitted or figure contains no axes handlers,
 % the height and AR apply to the figure itself. If the figure contains
 % multiple axes or other objects, these will be scaled accordingly.
 %
 % Axes number supports polar axes as well as straight axes.
+%
+% N.B. Due to the nonlinear scaling behaviour of color plots, rescaling
+% axes won't work for plots produced by the imagesc command. Omitting
+% the axnum argument is therefore recommended.
 
 if nargin == 0              % Default height
     height = 500;
