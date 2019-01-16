@@ -17,13 +17,13 @@ function complexcolorwheel(varargin)
     if ischar(in.position) || isstring(in.position)
         switch in.position
             case 'topleft'
-                wheelpos = [0.02 0.83 0.15 0.15];
+                wheelpos = [0.02 0.81 0.15 0.15];
             case 'topright'
                 wheelpos = [0.83 0.83 0.15 0.15];
             case 'bottomleft'
                 wheelpos = [0.02 0.02 0.15 0.15];
             case 'bottomright'
-                wheelpos = [0.80 0.02 0.15 0.15];
+                wheelpos = [0.81 0.02 0.15 0.15];
             otherwise
                 error('Invalid preset for color wheel position.')
         end

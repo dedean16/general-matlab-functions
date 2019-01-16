@@ -11,7 +11,7 @@ function results = complexcolorparser(varargin)
     p.addParameter('sscale', 0, @checksscale)           % Saturation scale
     
     % Parameters for complexcolorwheel
-    p.addParameter('position', 'bottomright', @checkposition)
+    p.addParameter('position', 'bottomleft', @checkposition)
     p.addParameter('resolution', 256, @checkpositiveint)
     p.addParameter('textparams', struct(), @isstruct)
     p.addParameter('figure', get(0, 'CurrentFigure'))
