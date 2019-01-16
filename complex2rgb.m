@@ -1,6 +1,6 @@
 function c = complex2rgb(z, varargin)
     % Complex 2D array to RGB values
-    % The output is intended for plotting with e.g. image().
+    % The output is intended for plotting with e.g. imagesc().
     %
     % Output:
     % c:      N*M*3 array, representing the RGB color channels, where N*M
@@ -69,6 +69,8 @@ function c = complex2rgb(z, varargin)
     else                            % Mod of value will be taken
         val = 1 - in.vstep*(1-mod(val,1)) .^ in.vgamma;
     end
+    
+    val = val .* (1 + in.vbright);  % Apply brightness correction
     
     % Compute RGB array
     c = hsv2rgb(cat(3, hue, sat, val));

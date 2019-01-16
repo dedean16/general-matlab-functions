@@ -1,7 +1,42 @@
 function complexcolorwheel(varargin)
     
+    % Check and parse input parameters
     in = complexcolorparser(varargin{:});
     res = in.resolution;
+    
+    % Get figure and parent axes
+    fig = figure(in.figure);
+    if isnumeric(in.axes)
+        allaxes = findobj(fig,'type','axes','-or','type','polaraxes');
+        parentaxes = allaxes(in.axes);
+    else
+        parentaxes = in.axes;
+    end
+    
+    % Determine color wheel preset position or assign normalized position
+    if ischar(in.position) || isstring(in.position)
+        switch in.position
+            case 'topleft'
+                wheelpos = [0.02 0.83 0.15 0.15];
+            case 'topright'
+                wheelpos = [0.83 0.83 0.15 0.15];
+            case 'bottomleft'
+                wheelpos = [0.02 0.02 0.15 0.15];
+            case 'bottomright'
+                wheelpos = [0.80 0.02 0.15 0.15];
+            otherwise
+                error('Invalid preset for color wheel position.')
+        end
+    else
+        wheelpos = in.position;
+    end
+    
+    % Compute color wheel position
+    paxpos = parentaxes.Position;
+    xwheel = paxpos(1) + wheelpos(1) * paxpos(3);
+    ywheel = paxpos(2) + wheelpos(2) * paxpos(4);
+    wwheel = wheelpos(3) * paxpos(3);
+    hwheel = wheelpos(4) * paxpos(4);
     
     
     % Option to pass 'auto' instead of a value for vscale    
@@ -11,6 +46,7 @@ function complexcolorwheel(varargin)
         vscale = in.vscale;
     end
     
+    
     % Construct color image of complex unit circle
     X = linspace(-vscale, vscale, res);
     Y = X';
@@ -19,14 +55,14 @@ function complexcolorwheel(varargin)
     C = complex2rgb((X + 1i*Y) .* alpha, varargin{:});
     
     % Display color image of complex unit circle
-    image(axes(figure(in.figure), 'Position', in.position),...
+    image(axes(fig, 'Position', [xwheel ywheel wwheel hwheel]),...
         C, 'AlphaData', alpha);
     
     text(res, res/2, '0',...
-        'FontSize', 16, 'Color', 'white',...
+        'FontSize', 14, 'Color', 'white',...
         in.textparams)
     text(res/2, 0, '\pi/2',...
-        'FontSize', 16, 'Color', 'white',...
+        'FontSize', 14, 'Color', 'white',...
         'HorizontalAlignment', 'center','VerticalAlignment', 'bottom',...
         in.textparams)
     drawnow

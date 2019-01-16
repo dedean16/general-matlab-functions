@@ -7,13 +7,15 @@ function results = complexcolorparser(varargin)
     p.addParameter('vscale', 'auto', @checkvscale)      % Value scale
     p.addParameter('vgamma', 1, @checkpositivescalar)   % Value gamma
     p.addParameter('vstep', 0, @checkvstep)             % Value step
+    p.addParameter('vbright', 0, @checkscalar)          % Brightness corr.
     p.addParameter('sscale', 0, @checksscale)           % Saturation scale
     
     % Parameters for complexcolorwheel
-    p.addParameter('position', [0.14 0.12 0.16 0.16])
-    p.addParameter('resolution', 128, @checkpositiveint)
+    p.addParameter('position', 'bottomright', @checkposition)
+    p.addParameter('resolution', 256, @checkpositiveint)
     p.addParameter('textparams', struct(), @isstruct)
-    p.addParameter('figure', gcf)
+    p.addParameter('figure', get(0, 'CurrentFigure'))
+    p.addParameter('axes', get(get(0, 'CurrentFigure'), 'CurrentAxes'))
     
     % Parse
     p.parse(varargin{:})
@@ -22,6 +24,10 @@ end
 
 
 %=== Argument check functions ===%
+function checkscalar(x)
+    validateattributes(x, {'numeric'}, {'scalar'});
+end
+
 function checkpositivescalar(x)
     validateattributes(x, {'numeric'}, {'scalar', 'positive'})
 end
@@ -45,3 +51,20 @@ function checksscale(x)
         validateattributes(x, {'numeric'}, {'scalar', 'nonnegative'})
     end
 end
+
+function checkposition(x)
+    if isnumeric(x)
+        validateattributes(x, {'numeric'}, {'size', [1 4]})
+        
+    elseif ischar(x) || isstring(x)
+        posoptions = {'topleft', 'topright', 'bottomleft', 'bottomright'};
+        assert(any(ismember(posoptions, x)),...
+            'Unexpected input ''%s''. Expected ''topleft'', ''topright'', ''bottomleft'' or ''bottomright''', x)
+    
+    else
+        error('Unexpected input ''%s''. Expected a row vector of length 4, or a string or char array.', x)
+    end
+end
+
+
+
