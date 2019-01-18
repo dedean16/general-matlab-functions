@@ -4,24 +4,27 @@ function complexcolorwheel(varargin)
     in = complexcolorparser(varargin{:});
     res = in.resolution;
     
-    % Get figure, current axes and parent axes
-    fig = figure(in.figure);
+    % Get target figure and current axes
+    fig = figure(in.figure);                    % Get target figure
     currentaxes = get(fig, 'CurrentAxes');      % Remember current axes
     
-    if isnumeric(in.axes)
+    % Get target parentaxes
+    if isnumeric(in.axes)                       % By axes index
         allaxes = findobj(fig,'type','axes','-or','type','polaraxes');
         parentaxes = allaxes(in.axes);
+    elseif strcmp('current', in.axes)           % By CurrentAxes property
+        parentaxes = get(fig, 'CurrentAxes');
     else
-        parentaxes = in.axes;
+        parentaxes = in.axes;                   % By axes handle
     end
     
     % Determine color wheel preset position or assign normalized position
     if ischar(in.position) || isstring(in.position)
-        switch in.position
+        switch in.position                      % Check for presets
             case 'topleft'
-                wheelpos = [0.02 0.81 0.15 0.15];
+                wheelpos = [0.02 0.79 0.15 0.15];
             case 'topright'
-                wheelpos = [0.83 0.83 0.15 0.15];
+                wheelpos = [0.81 0.79 0.15 0.15];
             case 'bottomleft'
                 wheelpos = [0.02 0.02 0.15 0.15];
             case 'bottomright'
@@ -33,12 +36,12 @@ function complexcolorwheel(varargin)
         wheelpos = in.position;
     end
     
-    % Compute color wheel position
-    paxpos = parentaxes.Position;
-    xwheel = paxpos(1) + wheelpos(1) * paxpos(3);
-    ywheel = paxpos(2) + wheelpos(2) * paxpos(4);
-    wwheel = wheelpos(3) * paxpos(3);
-    hwheel = wheelpos(4) * paxpos(4);
+    % Compute color wheel position with respect to parent axes
+    paxpos = parentaxes.Position;                   % Parent axes position
+    xwheel = paxpos(1) + wheelpos(1) * paxpos(3);   % Wheel axes x
+    ywheel = paxpos(2) + wheelpos(2) * paxpos(4);   % Wheel axes y
+    wwheel = wheelpos(3) * paxpos(3);               % Wheel axes width
+    hwheel = wheelpos(4) * paxpos(4);               % Wheel axes height
     
     
     % Option to pass 'auto' instead of a value for vscale    

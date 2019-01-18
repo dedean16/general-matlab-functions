@@ -15,7 +15,7 @@ function results = complexcolorparser(varargin)
     p.addParameter('resolution', 256, @checkpositiveint)
     p.addParameter('textparams', struct(), @isstruct)
     p.addParameter('figure', get(0, 'CurrentFigure'))
-    p.addParameter('axes', get(get(0, 'CurrentFigure'), 'CurrentAxes'))
+    p.addParameter('axes', 'current')
     
     % Parse
     p.parse(varargin{:})
