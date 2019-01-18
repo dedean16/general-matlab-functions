@@ -4,8 +4,10 @@ function complexcolorwheel(varargin)
     in = complexcolorparser(varargin{:});
     res = in.resolution;
     
-    % Get figure and parent axes
+    % Get figure, current axes and parent axes
     fig = figure(in.figure);
+    currentaxes = get(fig, 'CurrentAxes');      % Remember current axes
+    
     if isnumeric(in.axes)
         allaxes = findobj(fig,'type','axes','-or','type','polaraxes');
         parentaxes = allaxes(in.axes);
@@ -50,8 +52,8 @@ function complexcolorwheel(varargin)
     % Construct color image of complex unit circle
     X = linspace(-vscale, vscale, res);
     Y = X';
-    R = sqrt(X.^2 + Y.^2);
-    alpha = 1 - linstep(R, vscale*(res*0.99)/res, vscale);
+    R = sqrt(X.^2 + Y.^2);                           % Radius from origin
+    alpha = 1 - linstep(R, vscale*(res*0.99)/res, vscale); % Transparency
     C = complex2rgb((X + 1i*Y) .* alpha, varargin{:});
     
     % Display color image of complex unit circle
@@ -65,8 +67,10 @@ function complexcolorwheel(varargin)
         'FontSize', 14, 'Color', 'white',...
         'HorizontalAlignment', 'center','VerticalAlignment', 'bottom',...
         in.textparams)
-    drawnow
     axis off
+    
+    % Return to original current axes
+    set(fig, 'CurrentAxes', currentaxes);
 end
 
 
