@@ -1,4 +1,4 @@
-function save_fig_pdf(filename, h, bgcolor)
+function save_figtopdf(filename, h, bgcolor)
 % Save figure to PDF and crop edges.
 % Made by Daniel Cox
 % Version 1.0
