@@ -1,3 +1,6 @@
+% Argument option parser for complex2rgb and complexcolorwheel
+% Not meant for direct use
+
 %=== Argument parser ===%
 function results = complexcolorparser(varargin)
     % Input parser function for complex2rgb

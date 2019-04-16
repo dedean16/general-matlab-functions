@@ -1,4 +1,40 @@
 function complexcolorwheel(varargin)
+    % Complex Color Wheel
+    % Draw a color wheel to represent the complex plane, drawn with
+    % the function complex2rgb, as a qualitative equivalent of a colorbar
+    % for real scalar color plots.
+    %
+    % The color wheel itself is also drawn with complex2rgb. All options
+    % will be passed to complex2rgb. See documentation of complex2rgb for
+    % options related to colors. When using a struct to pass options, it
+    % is recommended to use the same struct, to match the colorwheel with
+    % the plot.
+    % 
+    %
+    % Options can be passed by either a struct or Parameter Value pairs.
+    % Options:
+    % position:     Any of the following char arrays or strings:
+    %               'topleft', 'topright', 'bottomleft', 'bottomright', or
+    %               a 4-element scalar array of normalized units:
+    %               [x, y, width, height]. Default: 'bottomleft'.
+    % resolution:   Positive integer. Number of pixels per dimension for
+    %               drawing the color wheel. Default: 256.
+    % textparams:   Struct. Parameters to be passed to the label text of
+    %               the colorwheel. See Text Properties for more info.
+    % figure:       Figure handle or index. Set target figure. Is ignored
+    %               when an axes handle is passed. Default: Current figure.
+    % axes:         Axes handle or index. Set target axes. Default: Current
+    %               axes.
+    %
+    % Note: All objects corresponding to the color wheel (the color wheel
+    % itself and the text labels) are tagged with 'ComplexColorWheel'.
+    % This allows easy access after the color wheel has been added.
+    % For instance, the color wheel and labels can be hidden with the
+    % following code:
+    % wheel = findobj(gcf, 'Tag', 'ComplexColorWheel')
+    % for h = 1:length(wheel)
+    %   wheel(h).Visible='off';
+    % end
     
     % Check and parse input parameters
     in = complexcolorparser(varargin{:});
@@ -61,15 +97,15 @@ function complexcolorwheel(varargin)
     
     % Display color image of complex unit circle
     image(axes(fig, 'Position', [xwheel ywheel wwheel hwheel]),...
-        C, 'AlphaData', alpha);
+        C, 'AlphaData', alpha, 'Tag', 'ComplexColorWheel');
     
     text(res, res/2, '0',...
         'FontSize', 14, 'Color', 'white',...
-        in.textparams)
+        'Tag', 'ComplexColorWheel', in.textparams)
     text(res/2, 0, '\pi/2',...
         'FontSize', 14, 'Color', 'white',...
         'HorizontalAlignment', 'center','VerticalAlignment', 'bottom',...
-        in.textparams)
+        'Tag', 'ComplexColorWheel', in.textparams)
     axis off
     
     % Return to original current axes

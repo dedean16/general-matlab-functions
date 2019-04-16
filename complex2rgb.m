@@ -36,6 +36,7 @@ function c = complex2rgb(z, varargin)
     % c = complex2rgb(z, options);
     % imagesc(x,y,c)
     % xlabel('Re(z)'); ylabel('Im(z)')
+    % complexcolorwheel(options)
     
     %=== Parse input and check for errors ===%
     validateattributes(z, {'numeric'}, {'2d'})    % Check input z
