@@ -1,7 +1,6 @@
 function save_figtopdf(filename, h, bgcolor)
 % Save figure to PDF and crop edges.
 % Made by Daniel Cox
-% Version 1.0
 %
 % Usages:
 %   save_fig_pdf
@@ -10,7 +9,11 @@ function save_figtopdf(filename, h, bgcolor)
 %   save_fig_pdf(filename, h, bgcolor)
 %
 % Input:
-%   filename: Name or path of the output file. Default: 'figure'.
+%   filename: Name or path of the output file. Note: may
+%             not end on a graphics file extension, like '.pdf' or '.fig'.
+%             If the FileName property of the figure is non-empty, it will
+%             be used as filename. If it is empty, 'figure' will be used as
+%             default filename.
 %   h:        The figure number or handler. Default: current figure.
 %   bgcolor:  Backgroundcolor of the figure. Default: 'white';
 %
@@ -18,25 +21,29 @@ function save_figtopdf(filename, h, bgcolor)
 % At the time of writing, using subscripts and superscripts in figure
 % titles seems to yield incorrect spacings when exporting to PDF.
 
-if nargin < 1                   % Default filename
-    filename = 'figure';        % Just call it 'figure'
+% Set defaults
+if nargin < 3                       % Default background color
+    bgcolor = 'white';              % White
 end
 
-if nargin < 2                   % Default figure
-    h = gcf;                    % Use current figure
+if nargin < 2                       % Default figure
+    h = gcf;                        % Use current figure
 end
 
-if nargin < 3                   % Default background color
-    bgcolor = 'white';          % White
+if nargin < 1                       % Default filename
+    filename = get(h, 'FileName');  % Filename from figure
+    if isempty(filename)            % If it is not set (empty)
+        filename = 'figure';        % Just call it 'figure'
+    end
 end
 
-tempcolor = get(h, 'Color');    % Current background color of figure
-set(h, 'Color', bgcolor);       % Set background color
-set(h, 'InvertHardcopy', 'off');% Required for colored text and background
+tempcolor = get(h, 'Color');        % Current background color of figure
+set(h, 'Color', bgcolor);           % Set background color
+set(h, 'InvertHardcopy', 'off');    % Required for colored text and background
 
-set(h, 'Units', 'Inches');      % Set figure units to inches
-pos = get(h, 'Position');       % Get figure positions in inches
+set(h, 'Units', 'Inches');          % Set figure units to inches
+pos = get(h, 'Position');           % Get figure positions in inches
 set(h,'PaperPositionMode','Auto','PaperUnits','Inches','PaperSize',[pos(3), pos(4)])
-print(h, filename, '-dpdf');    % Write to PDF file
+print(h, filename, '-dpdf');        % Write to PDF file
 
-set(h, 'Color', tempcolor);     % Restore background color
+set(h, 'Color', tempcolor);         % Restore background color
