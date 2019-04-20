@@ -28,15 +28,25 @@ function c = complex2rgb(z, varargin)
     %          saturation as a function of |z|. 1/sscale equals the Half
     %          Width Half Maximum of the falloff curve.
     %
-    % Example usage:
-    % x = -2:0.1:2; y = x';
-    % z = x + 1i*y;
-    % options.vscale = 2;
-    % options.sscale = 'auto';
-    % c = complex2rgb(z, options);
-    % imagesc(x,y,c)
-    % xlabel('Re(z)'); ylabel('Im(z)')
-    % complexcolorwheel(options)
+    %
+    % Note: For plotting 2D arrays as images with e.g. imagesc, by default
+    % when using the high-level version, the Y-axis is reversed. Its
+    % direction can be set to normal by:
+    % set(gca, 'YDir', 'normal')
+    %
+    %
+    % % Example usage:
+    % x = -2:0.1:2; y = x';             % Generate x- and y-values
+    % z = x + 1i*y;                     % Generate complex plane values
+    % options.vscale = 2;               % Set value-scale
+    % options.sscale = 'auto';          % Set saturation-scale to 'auto'
+    % c = complex2rgb(z, options);      % Generate colors from complex values
+    % figure                            % Create new figure
+    % imagesc(x,y,c)                    % Plot as image
+    % set(gca, 'YDir', 'normal')        % Set Y-axis direction
+    % xlabel('Re(z)'); ylabel('Im(z)')  % Label axes
+    % complexcolorwheel(options)        % Add complex color wheel
+    
     
     %=== Parse input and check for errors ===%
     validateattributes(z, {'numeric'}, {'2d'})    % Check input z
