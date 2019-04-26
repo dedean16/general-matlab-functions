@@ -1,9 +1,12 @@
 % Argument option parser for complex2rgb and complexcolorwheel
 % Not meant for direct use
+% Author: Daniel Cox
 
 %=== Argument parser ===%
 function results = complexcolorparser(varargin)
     % Input parser function for complex2rgb
+    % Not meant for direct use
+
     p = inputParser;
     
     % Parameters for complex2rgb

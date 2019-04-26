@@ -1,5 +1,6 @@
 function c = complex2rgb(z, varargin)
     % Complex 2D array to RGB values
+    % Author: Daniel Cox
     % The output is intended for plotting with e.g. imagesc().
     %
     % Output:

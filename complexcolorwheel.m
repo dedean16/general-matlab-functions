@@ -1,5 +1,6 @@
 function complexcolorwheel(varargin)
     % Complex Color Wheel
+    % Author: Daniel Cox
     % Draw a color wheel to represent the complex plane, drawn with
     % the function complex2rgb, as a qualitative equivalent of a colorbar
     % for real scalar color plots.
