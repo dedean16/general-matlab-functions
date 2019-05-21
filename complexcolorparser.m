@@ -15,6 +15,7 @@ function results = complexcolorparser(varargin)
     p.addParameter('vstep', 0, @checkvstep)             % Value step
     p.addParameter('vbright', 0, @checkscalar)          % Brightness corr.
     p.addParameter('sscale', 0, @checksscale)           % Saturation scale
+    p.addParameter('cmap', 'hsv', @checkcmap)           % Colormap
     
     % Parameters for complexcolorwheel
     p.addParameter('position', 'bottomleft', @checkposition)
@@ -56,6 +57,11 @@ function checksscale(x)
     if ~strcmp(x, 'auto')
         validateattributes(x, {'numeric'}, {'scalar', 'nonnegative'})
     end
+end
+
+function checkcmap(x)
+    assert(any(ismember({'hsv', 'lab'}, x)),...
+        'Unexpected input ''%s''. Expected ''hsv'' or ''lab''.', x)
 end
 
 function checkposition(x)
