@@ -99,7 +99,9 @@ function complexcolorwheel(varargin)
     % Display color image of complex unit circle
     image(axes(fig, 'Position', [xwheel ywheel wwheel hwheel]),...
         C, 'AlphaData', alpha, 'Tag', 'ComplexColorWheel');
-    set(gca, 'YDir', 'normal')
+    % Set Y-axis in normal direction, keep strictly to 1:1 aspect ratio
+    set(gca, 'YDir', 'normal',...
+        'DataAspectRatioMode', 'manual', 'DataAspectRatio', [1 1 1])
     
     % Insert phase labels
     text(res, res/2, '0',...
