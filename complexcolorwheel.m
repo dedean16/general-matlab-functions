@@ -92,9 +92,10 @@ function complexcolorwheel(varargin)
     % Construct color image of complex unit circle
     X = linspace(-vscale, vscale, res);
     Y = X';
-    R = sqrt(X.^2 + Y.^2);                           % Radius from origin
-    alpha = 1 - linstep(R, vscale*(res*0.99)/res, vscale); % Transparency
-    C = complex2rgb((X + 1i*Y) .* alpha, varargin{:});
+    R = sqrt(X.^2 + Y.^2);                          % Radius from origin
+    circle = (R <= 1);                              % Circle filled with 1
+    alpha = 1 - linstep(R, vscale*0.97, vscale);    % Transparency
+    C = complex2rgb((X + 1i*Y) .* circle, varargin{:});
     
     % Display color image of complex unit circle
     image(axes(fig, 'Position', [xwheel ywheel wwheel hwheel]),...
