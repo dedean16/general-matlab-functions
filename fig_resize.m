@@ -1,4 +1,4 @@
-function fig_resize(height, AR, ax, fig, iterations)
+function count = fig_resize(height, AR, ax, fig, iterations, count)
     % Figure Resize - Resize figure by height and aspect ratio.
     % Author: Daniel Cox
     %
@@ -10,20 +10,24 @@ function fig_resize(height, AR, ax, fig, iterations)
     %   fig_resize(height, AR, ax, fig)
     %   fig_resize(height, AR, ax, fig, iterations)
     %
+    % Input arguments:
     % height     = Inner height in pixels of the figure. Default: 500 pixels.
     % AR         = Aspect Ratio. Inner width/height ratio. Default: 1.
     % ax         = Child axes number or handle to set height and AR for.
     %              Default: 0.
     % fig        = Figure handler or figure number. Default: current.
     % iterations = Maximum number of recursion iterations, when ax ~= 0.
-    %              Default 3. When setting the size of axes, the figure is
+    %              Default 8. When setting the size of axes, the figure is
     %              resized, and the axes are assumed to scale linearly.
     %              However, the scaling is actually slightly nonlinear. The
     %              requested axes-size can still be achieved by recursive
     %              rescaling. The recursive rescaling is stopped when the
     %              maximum number of iterations is reached, or when
     %              |change in width| + |change in height| <= 2 pixels.
+    % count      = (Only used internally to count number of recursive
+    %              iterations.)
     %
+    % Output: number of recursive iterations used to converge to target size.
     %
     % Positions will be set such that figure center will remain the same.
     %
@@ -32,7 +36,7 @@ function fig_resize(height, AR, ax, fig, iterations)
     % ax to the axes number. The inner dimensions of the figure will be scaled
     % accordingly. Since in the latter case, the scaling of axes with figure
     % size can be slightly nonlinear, the function will by default recursively
-    % rescale up to 3 iterations. This maximum can be changed with the argument
+    % rescale up to 8 iterations. This maximum can be changed with the argument
     % 'iterations'.
     %
     % If ax is 0 or omitted or figure contains no axes handlers, the height and
@@ -61,8 +65,8 @@ function fig_resize(height, AR, ax, fig, iterations)
         h = figure(fig);
     end
 
-    if nargin < 5               % Default number of recursion iterations
-        iterations = 2;
+    if nargin < 5               % Default number of max recursion iterations
+        iterations = 8;
     end
 
 
@@ -130,8 +134,12 @@ function fig_resize(height, AR, ax, fig, iterations)
 
     % Recursive rescaling to overcome nonlinear scaling
     figsizechange = sum(abs(h.InnerPosition(3:4) - fip(3:4))); % Change in size
-    if ax ~= 0 && iterations > 1 && figsizechange > 2
-        fig_resize(height, AR, ax, h, iterations-1)            % Scale again
-    end
+    drawnow;
     
+    count = 1;
+    
+    % Rescale if target size not reached yet
+    if ax ~= 0 && iterations > 1 && figsizechange > 2
+        count = fig_resize(height, AR, ax, h, iterations-1, count) + 1;
+    end
 end
